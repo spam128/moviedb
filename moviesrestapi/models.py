@@ -20,7 +20,7 @@ class Movie(models.Model):
     imdbrating = models.FloatField(verbose_name='imdb rating', default=0)
     imdbvotes = models.FloatField(verbose_name='imdb votes', default=0)
     type = models.CharField(max_length=50, default='N/A')
-    totalseasons = models.IntegerField(verbose_name='total seasons', default='N/A')
+    totalseasons = models.CharField(verbose_name='total seasons', default='N/A', max_length=10)
 
     def __str__(self):
         return getattr(self, 'title', '')
@@ -36,4 +36,4 @@ class Comment(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     comment = models.CharField(max_length=2048)
     date = models.DateTimeField(auto_now_add=True)
-    user_name =  models.CharField(max_length=20)
+    user_name = models.CharField(max_length=20)

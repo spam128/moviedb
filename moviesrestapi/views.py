@@ -9,13 +9,12 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import generics
 from .serializers import MovieSerializer, RatingSerializer, CommentSerializer
-from rest_framework.filters import OrderingFilter
-from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework import viewsets
 
 
 @api_view(['POST', ])
-def movies_view(request, pk='', format=None):
+def movies_view(request, format=None):
     if request.method == 'POST':
         name = slugify(request.data['title']).replace('-', '+')
         resp = requests.get('http://www.omdbapi.com/?apikey=7b85cd2d&t={}'.format(name))
@@ -39,17 +38,17 @@ def movies_view(request, pk='', format=None):
 class MoviesViewSet(generics.ListCreateAPIView, viewsets.GenericViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
-    filter_backends = (OrderingFilter, DjangoFilterBackend)
-    # filter_fields = ('date', 'user_name', 'date')
-    # ordering_fields = ('date', 'user_name', 'movie')
+    filter_backends = (OrderingFilter, SearchFilter)
+    search_fields = ('title', 'year')
     ordering = ('title',)
-    def create(self, request,*args, **kwargs):
+
+    def create(self, request, *args, **kwargs):
         try:
             name = slugify(request.data['title']).replace('-', '+')
             resp = requests.get('http://www.omdbapi.com/?apikey=7b85cd2d&t={}'.format(name))
-            data = json.loads(resp.content)
+            data = resp.json()
             data = {key.lower(): data[key] for key in data}
-            data['imdbvotes'] = int(data['imdbvotes'].replace(',', ''))
+            data['imdbvotes'] = int(data.get('imdbvotes', '0').replace(',', ''))
             movie = MovieSerializer(data=data)
         except Exception as e:
             return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
@@ -58,19 +57,20 @@ class MoviesViewSet(generics.ListCreateAPIView, viewsets.GenericViewSet):
             movie.save()
         else:
             return Response(movie.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        data['ratings'] = data.get('ratings', {})
         for rating in data['ratings']:
             rating['movie'] = movie.instance.id
         ratings = RatingSerializer(data=data['ratings'], many=True)
         if ratings.is_valid():
             ratings.save()
-            return Response(movie.data, status=status.HTTP_201_CREATED)
-        return Response(ratings.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(movie.data, status=status.HTTP_201_CREATED)
 
 
 class CommentsLC(generics.ListCreateAPIView, viewsets.GenericViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    filter_backends = (OrderingFilter, DjangoFilterBackend)
-    filter_fields = ('date', 'user_name', 'date')
+    filter_backends = (OrderingFilter, SearchFilter)
+    search_fields = ('user_name', 'movie')
     ordering_fields = ('date', 'user_name', 'movie')
     ordering = ('date',)
