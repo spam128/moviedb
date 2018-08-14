@@ -46,6 +46,6 @@ class CommentsLC(generics.ListCreateAPIView, viewsets.GenericViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     filter_backends = (OrderingFilter, SearchFilter)
-    search_fields = ('user_name', 'movie')
+    search_fields = ('user_name',)
     ordering_fields = ('date', 'user_name', 'movie')
     ordering = ('date',)
