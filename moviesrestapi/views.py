@@ -22,7 +22,8 @@ class MoviesViewSet(generics.ListCreateAPIView, viewsets.GenericViewSet):
             resp = requests.get('http://www.omdbapi.com/?apikey=7b85cd2d&t={}'.format(name))
             data = resp.json()
             data = {key.lower(): data[key] for key in data}
-            data['imdbvotes'] = int(data.get('imdbvotes', '0').replace(',', ''))
+            data['imdbvotes'] = float(data.get('imdbvotes', '0').replace(',', ''))
+            data['imdbrating'] = float(data.get('imdbrating', '0').replace(',', ''))
             movie = MovieSerializer(data=data)
         except Exception as e:
             return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
