@@ -17,6 +17,8 @@ def mocked_requests_get(data):
 
 
 class TestMoviesReastApi(TestCase):
+    """TODO: corner cases, movie does not exist"""
+
     @patch('moviesrestapi.views.requests.get', return_value=mocked_requests_get(data={"Title": "Game of Thrones"}))
     def test_save_movie(self, mock_requests):
         self.assertEqual(Movie.objects.count(), 0)

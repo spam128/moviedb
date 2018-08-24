@@ -2,6 +2,7 @@ from django.db import models
 
 
 class Movie(models.Model):
+    """Movie model, all fields are chars"""
     title = models.CharField(max_length=25, unique=True)
     year = models.CharField(max_length=10, default='N/A')
     rated = models.CharField(max_length=50, default='N/A')
@@ -17,8 +18,8 @@ class Movie(models.Model):
     awards = models.CharField(max_length=100, default='N/A')
     poster = models.CharField(default='N/A', max_length=200)
     metascore = models.CharField(max_length=50, default='N/A')
-    imdbrating = models.FloatField(verbose_name='imdb rating', default=0)
-    imdbvotes = models.FloatField(verbose_name='imdb votes', default=0)
+    imdbrating = models.CharField(max_length=10, verbose_name='imdb rating', default='N/A')
+    imdbvotes = models.CharField(max_length=10, verbose_name='imdb votes', default='N/A')
     type = models.CharField(max_length=50, default='N/A')
     totalseasons = models.CharField(verbose_name='total seasons', default='N/A', max_length=10)
 
