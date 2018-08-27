@@ -28,9 +28,10 @@ class Movie(models.Model):
 
 
 class Rating(models.Model):
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    """Movie ratings from different websites"""
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='ratings')
     source = models.CharField(max_length=200, default='N/A')
-    value = models.FloatField(default=0)
+    value = models.CharField(max_length=200, default='N/A')
 
 
 class Comment(models.Model):

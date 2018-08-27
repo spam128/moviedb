@@ -28,15 +28,17 @@ The application's code should be kept in a public repository so that we can read
 Written application must be hosted and publicly available for us online - we recommend Heroku.
 '''
 
-
 from django.contrib import admin
 from django.urls import path
 
 from moviesrestapi import views
+from rest_framework.documentation import include_docs_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('movies/', views.movies_view),
     path('comments/', views.Comment),
-]
+    path(r'^docs/', include_docs_urls(title='My API title')
+         )
 
+]

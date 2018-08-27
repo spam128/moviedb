@@ -4,6 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [dev-packages]
+django-extensions = "*"
+ipython = "*"
 
 [packages]
 django = "*"
@@ -12,6 +14,7 @@ requests = "*"
 django-filter = "*"
 gunicorn = "*"
 django-heroku = "*"
+"psycopg2-binary" = "*"
 
 [requires]
 python_version = "3.6"

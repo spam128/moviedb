@@ -1,23 +1,27 @@
 from .models import Movie, Comment
 from rest_framework import generics
-from .serializers import MovieSerializer, CommentSerializer
+from .serializers import MoviesSerializer, CommentSerializer, CreateMovieSerializer
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework import viewsets
 
 
 class MoviesViewSet(generics.ListCreateAPIView, viewsets.GenericViewSet):
+    """Viewset for /movie/
+
+    Methods:
+    POST --
+    """
     queryset = Movie.objects.all()
-    serializer_class = MovieSerializer
+    serializer_class = MoviesSerializer
     filter_backends = (OrderingFilter, SearchFilter)
     search_fields = ('title', 'year')
     ordering = ('title',)
-    # data['ratings'] = data.get('ratings', {})
-    # for rating in data['ratings']:
-    #     rating['movie'] = movie.instance.id
-    # ratings = RatingSerializer(data=data['ratings'], many=True)
-    # if ratings.is_valid():
-    #     ratings.save()
-    # return Response(movie.data, status=status.HTTP_201_CREATED)
+
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return CreateMovieSerializer
+        else:
+            return MoviesSerializer
 
 
 class CommentsLC(generics.ListCreateAPIView, viewsets.GenericViewSet):
