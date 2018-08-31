@@ -1,16 +1,11 @@
 from .models import Movie, Comment
-from rest_framework import generics
 from .serializers import MoviesSerializer, CommentSerializer, CreateMovieSerializer
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework import viewsets
 
 
-class MoviesViewSet(generics.ListCreateAPIView, viewsets.GenericViewSet):
-    """Viewset for /movie/
-
-    Methods:
-    POST --
-    """
+class MoviesViewSet(viewsets.ModelViewSet):
+    """Viewset for adding movies and retrieving"""
     queryset = Movie.objects.all()
     serializer_class = MoviesSerializer
     filter_backends = (OrderingFilter, SearchFilter)
@@ -24,7 +19,8 @@ class MoviesViewSet(generics.ListCreateAPIView, viewsets.GenericViewSet):
             return MoviesSerializer
 
 
-class CommentsLC(generics.ListCreateAPIView, viewsets.GenericViewSet):
+class CommentsViewSet(viewsets.ModelViewSet):
+    """Viewset for adding comments and retrieving"""
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     filter_backends = (OrderingFilter, SearchFilter)
