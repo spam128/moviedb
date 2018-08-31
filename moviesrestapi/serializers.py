@@ -46,7 +46,7 @@ class MoviesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Movie
-        exclude = ('id',)
+        fields = '__all__'
 
 
 class CommentSerializer(serializers.ModelSerializer):
