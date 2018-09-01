@@ -1,7 +1,7 @@
 # moviedb
 simple REST API - basic movie database interacting with external APi http://www.omdbapi.com/
 
-[app deployed on heroku](https://stark-sierra-68671.herokuapp.com)
+[app deployed on heroku](https://moviedb-restapi.herokuapp.com/)
 
 ### functionalities:
 ordering, searching movie by name and year(movies), searching by user name(commets)
