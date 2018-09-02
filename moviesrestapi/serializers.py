@@ -6,10 +6,6 @@ from moviesrestapi import omdbapi
 class CreateMovieSerializer(serializers.ModelSerializer):
     """serializer for saving movie to database given only movie title."""
 
-    class Meta:
-        model = Movie
-        fields = ('title',)
-
     def create(self, data):
         """save to database movie info from omdbapi."""
         movie_data = omdbapi.get_movie(data.get('title', ''))
@@ -20,6 +16,10 @@ class CreateMovieSerializer(serializers.ModelSerializer):
         movie_serializer.save()
         print('exit')
         return movie_serializer.data
+
+    class Meta:
+        model = Movie
+        fields = ('title',)
 
 
 class RatingSerializer(serializers.ModelSerializer):
