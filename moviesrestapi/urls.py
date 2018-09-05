@@ -1,3 +1,7 @@
-from moviesrestapi import urls
+from rest_framework import routers
+from moviesrestapi import views
 
-urlpatterns = urls.urlpatterns
+router = routers.DefaultRouter()
+router.register(r'movies', views.MoviesViewSet)
+router.register(r'comments', views.CommentsViewSet)
+
