@@ -14,7 +14,7 @@ class Movie(models.Model):
     actors = models.CharField(max_length=1000, default='N/A')
     plot = models.CharField(max_length=1000, default='N/A')
     language = models.CharField(max_length=50, default='N/A')
-    country = models.CharField(max_length=100, default='N/A')
+    country = models.CharField(max_length=300, default='N/A')
     awards = models.CharField(max_length=500, default='N/A')
     poster = models.CharField(default='N/A', max_length=200)
     metascore = models.CharField(max_length=50, default='N/A')
