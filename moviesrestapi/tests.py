@@ -3,8 +3,12 @@ from unittest.mock import patch
 
 from .models import Movie
 
+REQUESTS_GET = 'moviesrestapi.omdbapi.requests.get'
+
 
 def mocked_requests_get(data):
+    """Mock GET response"""
+
     class MockResponse:
         def __init__(self, json_data, status_code):
             self.json_data = json_data
@@ -19,7 +23,7 @@ def mocked_requests_get(data):
 class TestMoviesReastApi(TestCase):
     """TODO: corner cases, movie does not exist"""
 
-    @patch('moviesrestapi.views.requests.get', return_value=mocked_requests_get(data={"Title": "Game of Thrones"}))
+    @patch(REQUESTS_GET, return_value=mocked_requests_get(data={"Title": "Game of Thrones"}))
     def test_save_movie(self, mock_requests):
         self.assertEqual(Movie.objects.count(), 0)
         resp = self.client.post('/movies/', {'title': 'game of thrones'})
@@ -32,10 +36,9 @@ class TestMoviesReastApi(TestCase):
         self.assertEqual('Game of Thrones', resp.data[0]['title'])
 
     def test_filter_movie(self):
-        with patch('moviesrestapi.views.requests.get',
-                   return_value=mocked_requests_get(data={'Title': 'Game of Thrones'})):
+        with patch(REQUESTS_GET, return_value=mocked_requests_get(data={'Title': 'Game of Thrones'})):
             self.client.post('/movies/', {'title': 'game of thrones'})
-        with patch('moviesrestapi.views.requests.get', return_value=mocked_requests_get(data={'Title': 'blow'})):
+        with patch(REQUESTS_GET, return_value=mocked_requests_get(data={'Title': 'blow'})):
             self.client.post('/movies/', {'title': 'blow'})
 
         resp = self.client.get('/movies/?search=blow')
@@ -45,8 +48,7 @@ class TestMoviesReastApi(TestCase):
 
 class TestCommentsReastApi(TestCase):
     def test_add_comments(self):
-        with patch('moviesrestapi.views.requests.get',
-                   return_value=mocked_requests_get(data={'Title': 'Game of Thrones'})):
+        with patch(REQUESTS_GET, return_value=mocked_requests_get(data={'Title': 'Game of Thrones'})):
             self.client.post('/movies/', {'title': 'game of thrones'})
         self.client.post('/comments/', {'comment': 'some long comment', 'user_name': 'user1', 'movie': 1})
         resp = self.client.get('/comments/')

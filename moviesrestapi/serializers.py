@@ -35,10 +35,10 @@ class RatingSerializer(serializers.ModelSerializer):
 class MoviesSerializer(serializers.ModelSerializer):
     """ serializes data from omdbapi. All fields are included also relational field ratings."""
 
-    ratings = RatingSerializer(many=True)
+    ratings = RatingSerializer(many=True, required=False)
 
     def create(self, validated_data):
-        ratings_data = validated_data.pop('ratings')
+        ratings_data = validated_data.pop('ratings', '')
         movie = Movie.objects.create(**validated_data)
         for rating in ratings_data:
             Rating.objects.create(movie=movie, **rating)
