@@ -7,7 +7,7 @@ REQUESTS_GET = 'moviesrestapi.omdbapi.requests.get'
 
 
 def mocked_requests_get(data):
-    """Mock GET response"""
+    """Mock GET response from requests"""
 
     class MockResponse:
         def __init__(self, json_data, status_code):
@@ -21,21 +21,24 @@ def mocked_requests_get(data):
 
 
 class TestMoviesReastApi(TestCase):
-    """TODO: corner cases, movie does not exist"""
+    """Test movies rest api"""
 
     @patch(REQUESTS_GET, return_value=mocked_requests_get(data={"Title": "Game of Thrones"}))
     def test_save_movie(self, mock_requests):
+        """Test post new movie is saved to database"""
         self.assertEqual(Movie.objects.count(), 0)
         resp = self.client.post('/movies/', {'title': 'game of thrones'})
         self.assertEqual(resp.status_code, 201)
         self.assertEqual(Movie.objects.count(), 1)
 
     def test_get_movie(self):
+        """Check if added movie is retrieved in GET"""
         self.client.post('/movies/', {'title': 'game of thrones'})
         resp = self.client.get('/movies/')
         self.assertEqual('Game of Thrones', resp.data[0]['title'])
 
     def test_filter_movie(self):
+        """Check filtering movies"""
         with patch(REQUESTS_GET, return_value=mocked_requests_get(data={'Title': 'Game of Thrones'})):
             self.client.post('/movies/', {'title': 'game of thrones'})
         with patch(REQUESTS_GET, return_value=mocked_requests_get(data={'Title': 'blow'})):
@@ -47,7 +50,10 @@ class TestMoviesReastApi(TestCase):
 
 
 class TestCommentsReastApi(TestCase):
+    """Test comments rest api"""
+
     def test_add_comments(self):
+        """Test POST comment is added to database"""
         with patch(REQUESTS_GET, return_value=mocked_requests_get(data={'Title': 'Game of Thrones'})):
             self.client.post('/movies/', {'title': 'game of thrones'})
         self.client.post('/comments/', {'comment': 'some long comment', 'user_name': 'user1', 'movie': 1})
