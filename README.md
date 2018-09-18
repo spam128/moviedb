@@ -1,5 +1,5 @@
 # moviedb
-simple REST API - basic movie database interacting with external APi http://www.omdbapi.com/
+simple REST API in django - basic movie database interacting with external APi http://www.omdbapi.com/
 
 [app deployed on heroku](https://moviedb-restapi.herokuapp.com/)
 
