@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class MoviesrestapiConfig(AppConfig):
+class OmdbRestapiConfig(AppConfig):
     name = 'omdbapi'

@@ -10,7 +10,7 @@ class TsvReader:
     Keyword parameters for initialization:
         path -- path of file which is going to be read
 
-    example use, print all data rows:
+    example usage, print all data rows:
     with TsvReader('tsv-file.tsv') as tsv:
         for row in tsv.readline():
             print(row)
