@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Movie, Comment, Rating
-from moviesrestapi import omdbapi
+from omdbapi import omdbapi
 
 
 class CreateMovieSerializer(serializers.ModelSerializer):

@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('moviesrestapi', '0003_auto_20180826_1300'),
+        ('omdbapi', '0003_auto_20180826_1300'),
     ]
 
     operations = [

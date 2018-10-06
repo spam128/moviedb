@@ -1,3 +1,3 @@
-from moviesrestapi.urls import router
+from omdbapi.urls import router
 
 urlpatterns = router.urls

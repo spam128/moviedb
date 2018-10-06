@@ -3,7 +3,7 @@ from unittest.mock import patch
 
 from .models import Movie
 
-REQUESTS_GET = 'moviesrestapi.omdbapi.requests.get'
+REQUESTS_GET = 'omdbapi.omdbapi.requests.get'
 
 
 def mocked_requests_get(data):
@@ -20,7 +20,7 @@ def mocked_requests_get(data):
     return MockResponse(data, 201)
 
 
-class TestMoviesReastApi(TestCase):
+class TestMoviesRestApi(TestCase):
     """Test movies rest api"""
 
     @patch(REQUESTS_GET, return_value=mocked_requests_get(data={"Title": "Game of Thrones"}))
@@ -49,7 +49,7 @@ class TestMoviesReastApi(TestCase):
         self.assertEqual('blow', resp.data[0]['title'])
 
 
-class TestCommentsReastApi(TestCase):
+class TestCommentsRestApi(TestCase):
     """Test comments rest api"""
 
     def test_add_comments(self):

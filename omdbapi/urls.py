@@ -1,5 +1,5 @@
 from rest_framework import routers
-from moviesrestapi import views
+from omdbapi import views
 
 router = routers.DefaultRouter()
 router.register(r'movies', views.MoviesViewSet)

@@ -52,12 +52,12 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('source', models.CharField(default='N/A', max_length=200)),
                 ('value', models.FloatField(default=0)),
-                ('movie', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='moviesrestapi.Movie')),
+                ('movie', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='omdbapi.Movie')),
             ],
         ),
         migrations.AddField(
             model_name='comment',
             name='movie',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='moviesrestapi.Movie'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='omdbapi.Movie'),
         ),
     ]
