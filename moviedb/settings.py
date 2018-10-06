@@ -35,7 +35,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'omdbapi.apps.MoviesrestapiConfig',
+    'omdbapi.apps.OmdbRestapiConfig',
+    'imdbapi.apps.ImdbRestapiConfig',
 
     'rest_framework',
     'django_filters',
