@@ -27,26 +27,26 @@ class TestMoviesRestApi(TestCase):
     def test_save_movie(self, mock_requests):
         """Test post new movie is saved to database"""
         self.assertEqual(Movie.objects.count(), 0)
-        resp = self.client.post('/movies/', {'title': 'game of thrones'})
+        resp = self.client.post('/omdb/movies/', {'title': 'game of thrones'})
         self.assertEqual(resp.status_code, 201)
         self.assertEqual(Movie.objects.count(), 1)
 
     def test_get_movie(self):
         """Check if added movie is retrieved in GET"""
-        self.client.post('/movies/', {'title': 'game of thrones'})
-        resp = self.client.get('/movies/')
-        self.assertEqual('Game of Thrones', resp.data[0]['title'])
+        self.client.post('/omdb/movies/', {'title': 'game of thrones'})
+        resp = self.client.get('/omdb/movies/')
+        self.assertEqual('Game of Thrones', resp.data['results'][0]['title'])
 
     def test_filter_movie(self):
         """Check filtering movies"""
         with patch(REQUESTS_GET, return_value=mocked_requests_get(data={'Title': 'Game of Thrones'})):
-            self.client.post('/movies/', {'title': 'game of thrones'})
+            self.client.post('/omdb/movies/', {'title': 'game of thrones'})
         with patch(REQUESTS_GET, return_value=mocked_requests_get(data={'Title': 'blow'})):
-            self.client.post('/movies/', {'title': 'blow'})
+            self.client.post('/omdb/movies/', {'title': 'blow'})
 
-        resp = self.client.get('/movies/?search=blow')
-        self.assertEqual(len(resp.data), 1)
-        self.assertEqual('blow', resp.data[0]['title'])
+        resp = self.client.get('/omdb/movies/?search=blow')
+        self.assertEqual(len(resp.data['results']), 1)
+        self.assertEqual('blow', resp.data['results'][0]['title'])
 
 
 class TestCommentsRestApi(TestCase):
@@ -55,8 +55,8 @@ class TestCommentsRestApi(TestCase):
     def test_add_comments(self):
         """Test POST comment is added to database"""
         with patch(REQUESTS_GET, return_value=mocked_requests_get(data={'Title': 'Game of Thrones'})):
-            self.client.post('/movies/', {'title': 'game of thrones'})
-        self.client.post('/comments/', {'comment': 'some long comment', 'user_name': 'user1', 'movie': 1})
-        resp = self.client.get('/comments/')
-        self.assertEqual(resp.data[0]['user_name'], 'user1')
-        self.assertEqual(resp.data[0]['comment'], 'some long comment')
+            self.client.post('/omdb/movies/', {'title': 'game of thrones'})
+        self.client.post('/omdb/comments/', {'comment': 'some long comment', 'user_name': 'user1', 'movie': 1})
+        resp = self.client.get('/omdb/comments/')
+        self.assertEqual(resp.data['results'][0]['user_name'], 'user1')
+        self.assertEqual(resp.data['results'][0]['comment'], 'some long comment')
