@@ -22,11 +22,11 @@ class Titles(models.Model):
         default='',
         help_text='The type/format of the title (e.g. movie, short, tvseries, tvepisode, video, etc)')
     primaryTitle = models.CharField(
-        max_length=150,
+        max_length=1000,
         default='',
         help_text='The more popular title / the title used by the filmmakers on promotional materials at the point of release')
     originalTitle = models.CharField(
-        max_length=150,
+        max_length=1000,
         default='',
         help_text='Original title, in the original language')
     isAdult = models.BooleanField(
@@ -51,10 +51,13 @@ class Titles(models.Model):
         help_text='Includes up to three genres associated with the title')
 
     def __str__(self):
-        return self.primaryTitle
+        if self.originalTitle:
+            return self.originalTitle
+        else:
+            return self.tconst
 
     class Meta:
-        ordering = ('tconst',)
+        ordering = ('primaryTitle',)
 
 
 class Names(models.Model):
@@ -86,12 +89,16 @@ class Names(models.Model):
         help_text='the top-3 professions of the person')
     knownForTitles = models.ManyToManyField(
         Titles,
+        related_name='names',
         blank=True,
         default=None,
         help_text='titles the person is known for')
 
     def __str__(self):
-        return self.primaryName
+        if self.primaryName:
+            return self.primaryName
+        else:
+            return self.nconst
 
     class Meta:
         ordering = ('nconst',)
