@@ -1,9 +1,29 @@
 # moviedb
 simple REST API in django - basic movie database interacting with external APi http://www.omdbapi.com/
 
-[app deployed on heroku](https://moviedb-restapi.herokuapp.com/)
 
-### functionalities:
+## Instalation
+```pipenv install``` it's sufficient to provide all packages
+
+## IMDB
+### Functionalities:
+
+getting movies ordered by movie title with given genre, series start year or cast person name
+
+
+Python command to load TSV data from https://www.imdb.com/interfaces/
+python manage.py loadimdbtsv title.basics.tsv.gz name.basics.tsv.gz 
+
+### Endpoints:
+
+```imdb/titles/``` all titles ordered by primary title, pagination is set to 25 values per page
+```imdb/titles/?search=searched_phrase``` return movies by given criteria (genre, series start year or cast person name)
+
+```imdb/names/``` all staff, pagination is set to 25 values per page.
+
+
+## OMDB:
+### Functionalities:
 ordering, searching movie by name and year(movies), searching by user name(commets)
 There is no posibility to login to keep the same user name
 
