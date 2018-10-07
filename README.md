@@ -8,8 +8,9 @@ simple REST API in django - basic movie database interacting with external APi h
 ## IMDB
 ### Functionalities:
 
-getting movies ordered by movie title with given genre, series start year or cast person name
-
+Getting movies ordered by movie title with given genre, series start year or cast person name
+Main cons:
+-during using importer command loadimdbtsv, database is blocked and there is no posibility to reach end points 
 
 Python command to load TSV data from https://www.imdb.com/interfaces/
 python manage.py loadimdbtsv title.basics.tsv.gz name.basics.tsv.gz 
@@ -24,7 +25,7 @@ python manage.py loadimdbtsv title.basics.tsv.gz name.basics.tsv.gz
 
 ## OMDB:
 ### Functionalities:
-ordering, searching movie by name and year(movies), searching by user name(commets)
+Ordering, searching movie by name and year(movies), searching by user name(commets)
 There is no posibility to login to keep the same user name
 
 ### Endpoints
