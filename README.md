@@ -1,5 +1,5 @@
 # moviedb
-simple REST API in django - basic movie database interacting with external APi http://www.omdbapi.com/
+simple REST API in django - basic movie database interacting with external APi http://www.omdbapi.com/ and loading movies data from https://www.imdb.com/interfaces/ tsv files.
 
 
 ## Instalation
