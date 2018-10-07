@@ -14,7 +14,8 @@ class Command(BaseCommand):
     usage:
         python manage.py loadimdbtsv file_path file_path
     """
-    help = 'Load tsv files data with titles/names to database. Any string after commad should be a path to tsv file or tsv file compresed by gzip'
+    help = 'Load tsv files data with titles/names to database. ' \
+           'Any string after commad should be a path to tsv file or tsv file compresed by gzip'
     max_bulk = 10
 
     def add_arguments(self, parser):
@@ -60,7 +61,7 @@ class Command(BaseCommand):
             counter - how many models were processed
         """
         serialized_data = serializer(data=bulk_models, many=True)
-        serialized_data.is_valid(raise_exception=True)
+        serialized_data.is_valid()
         serialized_data.save()
         logger.info('Saved {} rows'.format(counter))
         print('Saved {} rows'.format(counter))
